@@ -46,7 +46,7 @@ default 的话是默认安装 CentOS 镜像的，加` -b` 换，如
 
 > **[profiles]**
 > 
-> magnum = magnum,heat  //因为 magnum 的使用需要heat
+> magnum = magnum,heat  //因为 magnum 的使用需要 heat
 
 就可以这样写来实现镜像布置
 
