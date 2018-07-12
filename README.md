@@ -1,11 +1,97 @@
+## kolla 相关笔记
+--------
+前半部分为kolla ansible部署  后面为kolla定制化部署  
+等着边安装实验室30台机子边总结  未完待续
+## 快速使用安装 kolla 安装 OpenStack
 
-### kolla文档阅读笔记
+主机最低配置：
+
+* 2个网络接口 
+
+* 8 GB 主存 
+
+* 40GB 磁盘空间
+
+root 权限必须
+
+  ### 安装前准备事项
+
+pip 升到最新版本，用的 CentOS，指令为：
+
+```bash 
+yum install epel-releaseyum install python-pippip install -U pip 
+//ubuntu 除使用指令不同外，还有调用的库的名称也不同，具体查阅英文文档
+```
+
+**下载必备的软件和库文件**    //For CentOS
+```bash
+yum install python-devel libffi-devel gcc openssl-devel libselinux-python
+```
+
+安装  Ansible 时需要注意，一些 Ansible 版本过老，不能使用发行版本，Ansible2.2适用于本文的CentOS系统。写法如下：
+```bash
+yum install ansible
+```
+
+往 /etc/ansible/ansible.cfg 里加配置文件
+```ini
+[defaults]
+host_key_checking=False
+pipelining=True
+forks=100
+```
+### 开始安装
+**安装部署、评估组件**
+使用 pip 安装 kolla-ansible 及其组件
+```bash
+pip install kolla-ansible
+```
+复制 globals.yml 和 passwords.yml 到 / etc / kolla 目录。
+```bash
+cp -r /usr/share/kolla-ansible/etc_examples/kolla /etc/
+```
+整合文件到当前目录下
+```bash
+cp /usr/share/kolla-ansible/ansible/inventory/* .
+```
+**安装开发相关东西**
+克隆 kolla 和 kolla-来自 git 的可扩展存储库。
+```bash
+git clone https://github.com/openstack/kolla
+git clone https://github.com/openstack/kolla-ansible
+```
+安装 kolla 和 kolla-ansible所需的 txt 文件
+```bash
+pip install -r kolla/requirements.txt
+pip install -r kolla-ansible/requirements.txt
+```
+
+将配置文件复制到 / etc / kolla 目录（globals.yml 和 passwords.yml）。 
+
+```bash
+mkdir -p /etc/kolla
+cp -r kolla-ansible/etc/kolla/* /etc/kolla
+```
+将库存文件复制到工作目录。
+```
+cp kolla-ansible/ansible/inventory/* .
+```
+文件配置部分
+
+
+
+
+
+
+
 
 ----------
 
 
 
 #### 建立容器镜像 
+
+
 
 文档推荐在安装 kolla 时使用 kolla 的自带文件指令 **tools/build.py ** ，而不是直接使用 **kolla-build** 安装(本文默认使用 **tool/build.py** 方式安装)
 
